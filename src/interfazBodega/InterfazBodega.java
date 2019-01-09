@@ -20,6 +20,7 @@ public class InterfazBodega extends JFrame{
 	private PanelModificar_b pnlModificar;
 	private PanelEliminar_b pnlEliminar;
 	private PanelTabla_b pnlTabla;
+	private PanelOpcion_b pnlOpcion;
 	// Atributo controlador
 	Controlador ctrl;
 	public InterfazBodega(Controlador ctrl)
@@ -38,23 +39,28 @@ public class InterfazBodega extends JFrame{
 		this.ctrl=ctrl;
 		
 		// Instancia los paneles 
+		pnlOpcion = new PanelOpcion_b(ctrl);
+		pnlOpcion.setBounds(10, 10, 775,110);
 		pnlAgregar = new PanelAgregar_b(ctrl);
-		pnlAgregar.setBounds(10, 10, 775,160);
+		pnlAgregar.setBounds(10, 130, 775,250);
 		pnlModificar = new PanelModificar_b (ctrl);
-		pnlModificar.setBounds(10, 180, 775, 150);
+		pnlModificar.setBounds(10, 130, 775,250);
 		pnlEliminar = new PanelEliminar_b(ctrl);
-		pnlEliminar.setBounds(10, 340, 775, 150);
+		pnlEliminar.setBounds(10, 130, 775,250);
 		pnlTabla = new PanelTabla_b(ctrl);
 		pnlTabla.setBounds(10, 500, 775, 180);
 		
-		// Organizar el panel principal. 
+		
+		// Organizar el panel principal.
+		getContentPane( ).add(pnlOpcion);
 	    getContentPane( ).add(pnlAgregar);
+	    getContentPane( ).add(pnlEliminar);
+	    getContentPane( ).add(pnlModificar);
 	    //getContentPane( ).add(pnlTabla);
-	    //getContentPane( ).add(pnlModificar);
 	    
 	    
 	 // Conecta objetos al controlador.
-	    ctrl.conectar(pnlAgregar,pnlEliminar,pnlTabla,pnlModificar);
+	    ctrl.conectar(pnlAgregar,pnlEliminar,pnlTabla,pnlModificar,pnlOpcion);
 	    
 	 // Propiedades de la interfaz.
 	    setSize(800,720);

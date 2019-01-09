@@ -6,6 +6,7 @@ import Mundo.Mundo;
 import interfazBodega.PanelAgregar_b;
 import interfazBodega.PanelEliminar_b;
 import interfazBodega.PanelModificar_b;
+import interfazBodega.PanelOpcion_b;
 import interfazBodega.PanelTabla_b;
 import interfazCliente.PanelAgregar_c;
 import interfazCliente.PanelEliminar_c;
@@ -44,6 +45,7 @@ public class Controlador {
 	private PanelTabla_b pnlTabla_b;
 	private PanelModificar_b pnlModificar_b;
 	private PanelEliminar_b pnlEliminar_b;
+	private PanelOpcion_b pnlOpcion_b;
 	public Controlador()
 	{
 		mundo = new Mundo();
@@ -74,12 +76,14 @@ public class Controlador {
 		this.pnlEliminar_v=pnlEliminar_v;
 		this.pnlTabla_v=pnlTabla_v;
 	}
-	public void conectar(PanelAgregar_b pnlAgregar_b,PanelEliminar_b pnlEliminar_b, PanelTabla_b pnlTabla_b, PanelModificar_b pnlModificar_b) 
+	public void conectar(PanelAgregar_b pnlAgregar_b,PanelEliminar_b pnlEliminar_b, PanelTabla_b pnlTabla_b, PanelModificar_b pnlModificar_b
+			,PanelOpcion_b pnlOpcion_b) 
 	{
 		this.pnlAgregar_b=pnlAgregar_b;
 		this.pnlModificar_b=pnlModificar_b;
 		this.pnlEliminar_b=pnlEliminar_b;
 		this.pnlTabla_b=pnlTabla_b;
+		this.pnlOpcion_b=pnlOpcion_b;
 	}
 	public void setCrearProducto(String cod,String nom,String valor,String linea,String casa)
 	{
@@ -97,5 +101,26 @@ public class Controlador {
 	public void setAgregarBodega()
 	{
 		
+	}
+	public void setOpcionPanelBodega(int numero)
+	{
+		if(numero == 1)
+		{
+			pnlAgregar_b.setEstado(true);
+			pnlModificar_b.setEstado(false);
+			pnlEliminar_b.setEstado(false);
+		}
+		else if(numero == 2)
+		{
+			pnlAgregar_b.setEstado(false);
+			pnlModificar_b.setEstado(true);
+			pnlEliminar_b.setEstado(false);
+		}
+		else if(numero == 3)
+		{
+			pnlAgregar_b.setEstado(false);
+			pnlModificar_b.setEstado(false);
+			pnlEliminar_b.setEstado(true);
+		}
 	}
 }

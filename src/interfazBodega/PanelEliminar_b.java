@@ -31,6 +31,7 @@ public class PanelEliminar_b extends JPanel implements ActionListener{
 	{
 		setBackground(new Color(202,255,79));
 		setLayout( null );
+		setVisible(false);
 		//Integar controlador
 		this.ctrl=ctrl;
 		
@@ -209,6 +210,18 @@ public class PanelEliminar_b extends JPanel implements ActionListener{
 			}
 		}
 		
+	}
+	
+	public void setEstado(boolean estado)
+	{
+		if(estado)
+		{
+			setVisible(true);
+		}
+		else
+		{
+			setVisible(false);
+		}
 	}
 
 }
