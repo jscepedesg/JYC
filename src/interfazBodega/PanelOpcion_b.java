@@ -14,12 +14,11 @@ import javax.swing.JTextField;
 
 import Controlador.Controlador;
 
-public class PanelOpcion_b extends JPanel implements ActionListener{
+public class PanelOpcion_b extends JPanel{
 	
 	private Controlador ctrl;
 	private JLabel info[]= new JLabel[11];
 	private JButton bot_cre;
-	private JTextField intro[] = new JTextField[7];
 	private JRadioButton boton1,boton2,boton3;
 	private ButtonGroup grupo;
 	
@@ -64,11 +63,6 @@ public class PanelOpcion_b extends JPanel implements ActionListener{
 		 add(boton1);add(boton2);add(boton3);
 		 
 		 
-		
-	}
-
-	public void actionPerformed(ActionEvent e) 
-	{
 		
 	}
 	

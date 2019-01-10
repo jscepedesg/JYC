@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import interfazBodega.PanelAgregar_b;
+
 public class Mundo {
 
 	private boolean very;
@@ -148,5 +150,38 @@ public class Mundo {
 		{
 			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
 		}
+	}
+	
+	public ArrayList<Producto> getLlenarCombox()
+	{
+		ArrayList<Producto> verifi = null;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+			//Ejecutar Sql
+			ResultSet miresultset = mistatement.executeQuery("select * from producto");
+			verifi = new ArrayList<Producto>();
+			//Recorrer el resulset
+			while(miresultset.next())
+			{
+				verifi.add(new Producto(miresultset.getInt("Id_Pro"),miresultset.getString("nom_Pro"),miresultset.getInt("Valor_sin_iva"),miresultset.getString("Linea_pro"),miresultset.getString("Casa_de_Export")));
+				
+			}
+			
+			
+			conexion.close();
+			
+		}
+		catch(Exception g)
+		{
+			//JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println("Hubo un erro con la base de datos");
+		}
+		
+		return verifi;
+		
 	}
 }

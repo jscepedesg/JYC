@@ -42,13 +42,13 @@ public class InterfazBodega extends JFrame{
 		pnlOpcion = new PanelOpcion_b(ctrl);
 		pnlOpcion.setBounds(10, 10, 775,110);
 		pnlAgregar = new PanelAgregar_b(ctrl);
-		pnlAgregar.setBounds(10, 130, 775,250);
+		pnlAgregar.setBounds(10, 130, 775,120);
 		pnlModificar = new PanelModificar_b (ctrl);
-		pnlModificar.setBounds(10, 130, 775,250);
+		pnlModificar.setBounds(10, 130, 775,120);
 		pnlEliminar = new PanelEliminar_b(ctrl);
-		pnlEliminar.setBounds(10, 130, 775,250);
+		pnlEliminar.setBounds(10, 130, 775,120);
 		pnlTabla = new PanelTabla_b(ctrl);
-		pnlTabla.setBounds(10, 500, 775, 180);
+		pnlTabla.setBounds(10, 260, 775, 420);
 		
 		
 		// Organizar el panel principal.
@@ -56,7 +56,7 @@ public class InterfazBodega extends JFrame{
 	    getContentPane( ).add(pnlAgregar);
 	    getContentPane( ).add(pnlEliminar);
 	    getContentPane( ).add(pnlModificar);
-	    //getContentPane( ).add(pnlTabla);
+	    getContentPane( ).add(pnlTabla);
 	    
 	    
 	 // Conecta objetos al controlador.

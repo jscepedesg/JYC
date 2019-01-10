@@ -1,8 +1,10 @@
 package Controlador;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import Mundo.Mundo;
+import Mundo.Producto;
 import interfazBodega.PanelAgregar_b;
 import interfazBodega.PanelEliminar_b;
 import interfazBodega.PanelModificar_b;
@@ -46,6 +48,7 @@ public class Controlador {
 	private PanelModificar_b pnlModificar_b;
 	private PanelEliminar_b pnlEliminar_b;
 	private PanelOpcion_b pnlOpcion_b;
+	private ArrayList<Producto> verifi = new ArrayList<Producto>();
 	public Controlador()
 	{
 		mundo = new Mundo();
@@ -122,5 +125,15 @@ public class Controlador {
 			pnlModificar_b.setEstado(false);
 			pnlEliminar_b.setEstado(true);
 		}
+	}
+	
+	public void setLlenarComboxProducto()
+	{
+		verifi=mundo.getLlenarCombox();
+	}
+	public ArrayList<Producto> getLlenarCombox()
+	{
+		return verifi;
+		
 	}
 }
