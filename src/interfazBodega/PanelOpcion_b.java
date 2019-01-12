@@ -8,19 +8,29 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import Controlador.Controlador;
+import com.mysql.jdbc.Connection;
 
-public class PanelOpcion_b extends JPanel{
+import Controlador.Controlador;
+import Mundo.Conexion;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+public class PanelOpcion_b extends JPanel implements ActionListener{
 	
 	private Controlador ctrl;
 	private JLabel info[]= new JLabel[11];
 	private JButton bot_cre;
 	private JRadioButton boton1,boton2,boton3;
 	private ButtonGroup grupo;
+	private JButton bot_reporte;
 	
 	public PanelOpcion_b(Controlador ctrl)
 	{
@@ -62,6 +72,12 @@ public class PanelOpcion_b extends JPanel{
 		 
 		 add(boton1);add(boton2);add(boton3);
 		 
+		//Boton buscar
+		 bot_reporte = new JButton("Generar Reporte");
+		 bot_reporte.addActionListener(this);
+		add(bot_reporte);
+		bot_reporte.setBounds(580, 60, 180, 25);
+		 
 		 
 		
 	}
@@ -91,6 +107,30 @@ public class PanelOpcion_b extends JPanel{
 				
 			}
 		}
+		
+	}
+
+	public void actionPerformed(ActionEvent e) 
+	{
+		try
+		{
+			Conexion con = new Conexion();
+			Connection conn= con.getConexion();
+			JasperReport a = null;
+			String path = "src\\reportes\\bodega.jasper";
+			
+			a=(JasperReport) JRLoader.loadObjectFromFile(path);
+			JasperPrint fillreport = JasperFillManager.fillReport(a,null, conn);
+			JasperViewer jv = new JasperViewer(fillreport,false);
+			jv.setVisible(true);
+			jv.show();
+			
+		}
+		catch(Exception r)
+		{
+			JOptionPane.showMessageDialog(this, r);
+		}
+		
 		
 	}
 
