@@ -20,16 +20,17 @@ import javax.swing.JTextField;
 import com.jidesoft.swing.ComboBoxSearchable;
 
 import Controlador.Controlador;
+import Mundo.Bodega;
 import Mundo.Producto;
 import Mundo.Vendedor;
+import interfazCliente.PanelTabla_c;
 import interfazVendedor.PanelTabla_v;
 
 public class PanelEliminar_b extends JPanel implements ActionListener{
 
-	private Controlador ctrl;
+	private static Controlador ctrl;
 	private JLabel info[]= new JLabel[3];
-	private JTextField intro;
-	private JComboBox productos;
+	private static JComboBox productos;
 	private JButton bot_agregar;
 	
 	public PanelEliminar_b(Controlador ctrl)
@@ -77,7 +78,38 @@ public class PanelEliminar_b extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) 
 	{
-		
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+			//Eliminar valores
+			if(!((String)productos.getSelectedItem()).equals("--Vacio--"))
+				{	
+				String nombre=(String) productos.getSelectedItem();
+				String instruccion_sql = "delete from bodega where Id_Pro2 = (SELECT p.Id_Pro  FROM producto p WHERE p.nom_Pro = '"+nombre+"')";
+				mistatement.executeUpdate(instruccion_sql);
+				PanelTabla_b.setElimino();
+				PanelModificar_b.setActualizarItems();
+				productos.removeAllItems();
+				setAgregarItem();
+				productos.setSelectedItem("--Vacio--");
+				JOptionPane.showMessageDialog(this,"El producto se elimino correctamente","Atención",1);
+				
+				
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,"No ha echo la busqueda","Alerta",0);
+			}
+		    
+		}
+		catch(Exception r)
+		{
+			JOptionPane.showMessageDialog(this,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println(r.getMessage());
+		}
 		
 	}
 	
@@ -93,14 +125,26 @@ public class PanelEliminar_b extends JPanel implements ActionListener{
 		}
 	}
 	
-	public void setAgregarItem()
+	public static void setAgregarItem()
 	{
-		ArrayList<Producto> verifi = new ArrayList<Producto>();
-		ctrl.setLlenarComboxProducto();
-		verifi=ctrl.getLlenarCombox();
-		for (Producto producto : verifi) 
-		{productos.addItem(producto.getNom_p());}
-		
+		try
+		{
+			ArrayList<Bodega> verifi = new ArrayList<Bodega>();
+			ctrl.setLlenarComboxProducto1();
+			verifi=ctrl.getLlenarCombox1();
+			for (Bodega producto : verifi) 
+			{productos.addItem(producto.getNombre_p());}
+		}
+		catch(Exception e)
+		{
+			e.getMessage();
+		}
+	}
+	
+	public static void  setActualizarItems()
+	{
+		productos.removeAllItems();
+		setAgregarItem();
 	}
 
 }

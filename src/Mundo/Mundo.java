@@ -13,6 +13,7 @@ import interfazBodega.PanelAgregar_b;
 public class Mundo {
 
 	private boolean very;
+	private int codigo;
 	public Mundo()
 	{
 		very=true;
@@ -152,6 +153,70 @@ public class Mundo {
 		}
 	}
 	
+	public void setAgregarProductoBodega(String nombre,String cantidad)
+	{
+		very=true;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+//-------------------------------------------------------------------------------------------
+			//Ejecutar Sql
+			ResultSet miresultset = mistatement.executeQuery("select * from producto");
+			//Recorrer el resulset
+			while(miresultset.next())
+			{
+				String prue=miresultset.getString("nom_Pro");
+				if(prue.contains(nombre))
+				{
+					 codigo=miresultset.getInt("Id_Pro");
+				}
+			}
+//---------------------------------------------------------------------------------------------------
+			//Segunda consulta
+			
+			//2.Crear objecto Statement
+			Statement mistatement1 = conexion.createStatement();
+//-------------------------------------------------------------------------------------------
+			//Ejecutar Sql
+			ResultSet miresultset1 = mistatement1.executeQuery("select * from bodega");
+			ArrayList<Integer> verifi = new ArrayList<Integer>();
+			//Recorrer el resulset
+			while(miresultset1.next())
+			{
+				verifi.add(miresultset1.getInt("Id_Pro2"));
+			}
+			
+			 for (Integer integer : verifi) 
+			{
+				int prue=integer;
+				if(prue==codigo)
+				{
+					JOptionPane.showMessageDialog(null,"Ya ahi un producto agregado con el mismo codigo","Alerta",0);
+					 very=false;
+				}
+			}
+			 
+//--------------------------------------------------------------------------------------------
+			//Insertar valores
+			if(very==true)
+			{
+				String instruccion_sql = "insert into bodega values ("+codigo+","+cantidad+","+1+")";
+				mistatement.executeUpdate(instruccion_sql);
+				JOptionPane.showMessageDialog(null,"El producto se agrego correctamente","Atención",1);
+			}
+			
+			conexion.close();
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println(g.getMessage());
+		}
+	}
+	
 	public ArrayList<Producto> getLlenarCombox()
 	{
 		ArrayList<Producto> verifi = null;
@@ -177,8 +242,39 @@ public class Mundo {
 		}
 		catch(Exception g)
 		{
-			//JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
-			System.out.println("Hubo un erro con la base de datos");
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+		}
+		
+		return verifi;
+		
+	}
+	
+	public ArrayList<Bodega> getLlenarCombox1()
+	{
+		ArrayList<Bodega> verifi = null;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+			//Ejecutar Sql
+			ResultSet miresultset = mistatement.executeQuery("SELECT b.Id_Pro2, p.nom_Pro, p.Linea_pro, b.cantidad FROM producto p INNER JOIN bodega b ON(p.Id_Pro = b.Id_Pro2)");
+			verifi = new ArrayList<Bodega>();
+			//Recorrer el resulset
+			while(miresultset.next())
+			{
+				verifi.add(new Bodega(miresultset.getInt("Id_Pro2"),miresultset.getString("nom_Pro"),miresultset.getString("Linea_pro"),miresultset.getInt("cantidad")));
+				
+			}
+			
+			
+			conexion.close();
+			
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
 		}
 		
 		return verifi;

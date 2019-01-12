@@ -3,6 +3,7 @@ package Controlador;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import Mundo.Bodega;
 import Mundo.Mundo;
 import Mundo.Producto;
 import interfazBodega.PanelAgregar_b;
@@ -49,6 +50,7 @@ public class Controlador {
 	private PanelEliminar_b pnlEliminar_b;
 	private PanelOpcion_b pnlOpcion_b;
 	private ArrayList<Producto> verifi = new ArrayList<Producto>();
+	private ArrayList<Bodega> verifi1 = new ArrayList<Bodega>();
 	public Controlador()
 	{
 		mundo = new Mundo();
@@ -101,9 +103,9 @@ public class Controlador {
 	{
 		mundo.setCrearVendedor(cod, nom, apel, ruta, tele,correo);
 	}
-	public void setAgregarBodega()
+	public void setAgregarBodega(String nombre,String cantidad)
 	{
-		
+		mundo.setAgregarProductoBodega(nombre, cantidad);
 	}
 	public void setOpcionPanelBodega(int numero)
 	{
@@ -134,6 +136,15 @@ public class Controlador {
 	public ArrayList<Producto> getLlenarCombox()
 	{
 		return verifi;
+		
+	}
+	public void setLlenarComboxProducto1() {
+		
+		verifi1=mundo.getLlenarCombox1();
+	}
+	public ArrayList<Bodega> getLlenarCombox1()
+	{
+		return verifi1;
 		
 	}
 }

@@ -227,7 +227,7 @@ public class PanelModificar_p extends JPanel implements ActionListener{
 				{
 					JOptionPane.showMessageDialog(this,"No ha echo la busqueda","Alerta",0);
 				}
-			    
+			    conexion.close();
 			}
 			catch(Exception r)
 			{

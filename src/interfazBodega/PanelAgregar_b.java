@@ -92,7 +92,21 @@ public class PanelAgregar_b extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		
+		String nombre,cantidad;
+		if(!intro.getText().equals("") &&!((String)productos.getSelectedItem()).equals("--Vacio--"))
+		{
+			cantidad=intro.getText();
+			nombre=(String) productos.getSelectedItem();
+			ctrl.setAgregarBodega(nombre, cantidad);
+			intro.setText("");
+			productos.setSelectedItem("--Vacio--");
+			PanelModificar_b.setActualizarItems();
+			PanelEliminar_b.setActualizarItems();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this,"Ahí un espacio vacio","Alerta",0);
+		}
 	}
 	
 	public void setEstado(boolean estado)
@@ -110,11 +124,19 @@ public class PanelAgregar_b extends JPanel implements ActionListener{
 	
 	public void setAgregarItem()
 	{
-		ArrayList<Producto> verifi = new ArrayList<Producto>();
-		ctrl.setLlenarComboxProducto();
-		verifi=ctrl.getLlenarCombox();
-		for (Producto producto : verifi) 
-		{productos.addItem(producto.getNom_p());}
+		try
+		{
+			ArrayList<Producto> verifi = new ArrayList<Producto>();
+			ctrl.setLlenarComboxProducto();
+			verifi=ctrl.getLlenarCombox();
+			for (Producto producto : verifi) 
+			{productos.addItem(producto.getNom_p());}
+		}
+		catch(Exception e)
+		{
+			e.getMessage();
+		}
+		
 		
 	}
 

@@ -4,26 +4,33 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.jidesoft.swing.ComboBoxSearchable;
 
 import Controlador.Controlador;
+import Mundo.Bodega;
 import Mundo.Producto;
 
 public class PanelModificar_b extends JPanel implements ActionListener{
 
 	
-	private Controlador ctrl;
+	private static Controlador ctrl;
 	private JLabel info[]= new JLabel[4];
 	private JTextField intro;
-	private JComboBox productos;
+	private static JComboBox productos;
 	private JButton bot_agregar;
 	
 	public PanelModificar_b(Controlador ctrl)
@@ -102,13 +109,20 @@ public class PanelModificar_b extends JPanel implements ActionListener{
 		}
 	}
 	
-	public void setAgregarItem()
+	public static void setAgregarItem()
 	{
-		ArrayList<Producto> verifi = new ArrayList<Producto>();
-		ctrl.setLlenarComboxProducto();
-		verifi=ctrl.getLlenarCombox();
-		for (Producto producto : verifi) 
-		{productos.addItem(producto.getNom_p());}
+		try
+		{
+			ArrayList<Bodega> verifi = new ArrayList<Bodega>();
+			ctrl.setLlenarComboxProducto1();
+			verifi=ctrl.getLlenarCombox1();
+			for (Bodega producto : verifi) 
+			{productos.addItem(producto.getNombre_p());}
+		}
+		catch(Exception e)
+		{
+			e.getMessage();
+		}
 		
 	}
 
@@ -116,6 +130,41 @@ public class PanelModificar_b extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) 
 	{
 		
-		
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			Statement mistatement = conexion.createStatement();
+			//Eliminar valores
+			if(!intro.getText().equals("")&&!((String)productos.getSelectedItem()).equals("--Vacio--"))
+			{	
+				int aux=Integer.parseInt(intro.getText());
+				String nombre=(String) productos.getSelectedItem();
+				//2. Preparar la consulta
+				String consulta = "UPDATE bodega SET cantidad = "+aux+" WHERE Id_Pro2 = (SELECT p.Id_Pro  FROM producto p WHERE p.nom_Pro = '"+nombre+"')";
+				mistatement.executeUpdate(consulta);
+				JOptionPane.showMessageDialog(this,"El producto se modifico correctamente","Atención",1);
+				intro.setText("");
+				productos.setSelectedItem("--Vacio--");
+				
+				
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,"Hay campos vacios","Alerta",0);
+			}
+		    conexion.close();
+		}
+		catch(Exception r)
+		{
+			JOptionPane.showMessageDialog(this,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println(r.getMessage());
+		}
+	}
+	
+	public static void  setActualizarItems()
+	{
+		productos.removeAllItems();
+		setAgregarItem();
 	}
 }
