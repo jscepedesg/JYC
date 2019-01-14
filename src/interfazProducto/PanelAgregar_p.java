@@ -17,6 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Controlador.Controlador;
+import Mundo.Conexion;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class PanelAgregar_p extends JPanel implements ActionListener{
 
@@ -24,6 +30,7 @@ public class PanelAgregar_p extends JPanel implements ActionListener{
 	private JLabel info[]= new JLabel[8];
 	private JButton bot_cre;
 	private JTextField intro[] = new JTextField[5];
+	private JButton bot_reporte;
 	
 	PanelAgregar_p(Controlador ctrl) 
 	{
@@ -127,30 +134,60 @@ public class PanelAgregar_p extends JPanel implements ActionListener{
 		add(bot_cre);
 		bot_cre.setBounds(20, 130, 75, 25);
 		 
+		bot_reporte = new JButton("Generar Reporte");
+		bot_reporte.addActionListener(this);
+		add(bot_reporte);
+		bot_reporte.setBounds(580, 10, 180, 25);
 	}
 
 	public void actionPerformed(ActionEvent e) 
 	{
+		Object btnpuch = e.getSource();
 		String cod,nom,pre,linea_p,casade_e;
-		if(!intro[0].getText().equals("") && !intro[1].getText().equals("")&&!intro[2].getText().equals("")
-				&& !intro[3].getText().equals("")&& !intro[4].getText().equals(""))
+		if(btnpuch==bot_cre)
 		{
-			cod=intro[0].getText();
-			nom=intro[1].getText();
-			pre=intro[2].getText();
-			linea_p=intro[3].getText();
-			casade_e=intro[4].getText();
-			ctrl.setCrearProducto(cod, nom, pre, linea_p, casade_e);
-			intro[1].setText("");
-			intro[2].setText("");
-			intro[3].setText("");
-			intro[4].setText("");
-			intro[0].setText("");
+			if(!intro[0].getText().equals("") && !intro[1].getText().equals("")&&!intro[2].getText().equals("")
+					&& !intro[3].getText().equals("")&& !intro[4].getText().equals(""))
+			{
+				cod=intro[0].getText();
+				nom=intro[1].getText();
+				pre=intro[2].getText();
+				linea_p=intro[3].getText();
+				casade_e=intro[4].getText();
+				ctrl.setCrearProducto(cod, nom, pre, linea_p, casade_e);
+				intro[1].setText("");
+				intro[2].setText("");
+				intro[3].setText("");
+				intro[4].setText("");
+				intro[0].setText("");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,"Ahí un espacio vacio","Alerta",0);
+			}
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(this,"Ahí un espacio vacio","Alerta",0);
+			try
+			{
+				Conexion con = new Conexion();
+				Connection conn= con.getConexion();
+				JasperReport a = null;
+				String path = "src\\reportes\\producto.jasper";
+				
+				a=(JasperReport) JRLoader.loadObjectFromFile(path);
+				JasperPrint fillreport = JasperFillManager.fillReport(a,null, conn);
+				JasperViewer jv = new JasperViewer(fillreport,false);
+				jv.setVisible(true);
+				jv.show();
+				
+			}
+			catch(Exception r)
+			{
+				JOptionPane.showMessageDialog(this, r);
+			}
 		}
+		
 	}
 
 }

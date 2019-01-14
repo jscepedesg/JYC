@@ -18,6 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Controlador.Controlador;
+import Mundo.Conexion;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class PanelAgregar_c extends JPanel implements ActionListener{
 
@@ -26,6 +32,7 @@ public class PanelAgregar_c extends JPanel implements ActionListener{
 	private JButton bot_cre;
 	private JTextField intro[] = new JTextField[7];
 	private static JComboBox combo;
+	private JButton bot_reporte;
 	
 	PanelAgregar_c(Controlador ctrl) 
 	{
@@ -174,38 +181,70 @@ public class PanelAgregar_c extends JPanel implements ActionListener{
 		bot_cre.addActionListener(this);
 		add(bot_cre);
 		bot_cre.setBounds(20, 130, 75, 25);
+		
+		//Boton buscar
+		bot_reporte = new JButton("Generar Reporte");
+		bot_reporte.addActionListener(this);
+		add(bot_reporte);
+		bot_reporte.setBounds(580, 10, 180, 25);
 		 
 	}
 
 	public void actionPerformed(ActionEvent e) 
 	{
+		Object btnpuch = e.getSource();
 		String id,nom_r,nom_c,apel_c,dire_c,tel,correo,dia;
-		if(!intro[0].getText().equals("") && !intro[1].getText().equals("")&&!intro[2].getText().equals("")
-				&& !intro[3].getText().equals("")&& !intro[4].getText().equals("")&& !intro[5].getText().equals("")&& !intro[6].getText().equals("")
-				&&!((String)combo.getSelectedItem()).equals("-Ninguno-"))
+		if(btnpuch==bot_cre)
 		{
-			id=intro[0].getText();
-			nom_r=intro[1].getText();
-			nom_c=intro[2].getText();
-			apel_c=intro[3].getText();
-			dire_c=intro[4].getText();
-			tel=intro[5].getText();
-			correo=intro[6].getText();
-			dia=(String) combo.getSelectedItem();
-			ctrl.setCrearCliente(id, nom_r, nom_c, apel_c, dire_c,tel,correo,dia);
-			intro[1].setText("");
-			intro[2].setText("");
-			intro[3].setText("");
-			intro[4].setText("");
-			intro[0].setText("");
-			intro[5].setText("");
-			intro[6].setText("");
-			combo.setSelectedItem("-Ninguno-");
+			if(!intro[0].getText().equals("") && !intro[1].getText().equals("")&&!intro[2].getText().equals("")
+					&& !intro[3].getText().equals("")&& !intro[4].getText().equals("")&& !intro[5].getText().equals("")&& !intro[6].getText().equals("")
+					&&!((String)combo.getSelectedItem()).equals("-Ninguno-"))
+			{
+				id=intro[0].getText();
+				nom_r=intro[1].getText();
+				nom_c=intro[2].getText();
+				apel_c=intro[3].getText();
+				dire_c=intro[4].getText();
+				tel=intro[5].getText();
+				correo=intro[6].getText();
+				dia=(String) combo.getSelectedItem();
+				ctrl.setCrearCliente(id, nom_r, nom_c, apel_c, dire_c,tel,correo,dia);
+				intro[1].setText("");
+				intro[2].setText("");
+				intro[3].setText("");
+				intro[4].setText("");
+				intro[0].setText("");
+				intro[5].setText("");
+				intro[6].setText("");
+				combo.setSelectedItem("-Ninguno-");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,"Ahí un espacio vacio","Alerta",0);
+			}
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(this,"Ahí un espacio vacio","Alerta",0);
+			try
+			{
+				Conexion con = new Conexion();
+				Connection conn= con.getConexion();
+				JasperReport a = null;
+				String path = "src\\reportes\\cliente.jasper";
+				
+				a=(JasperReport) JRLoader.loadObjectFromFile(path);
+				JasperPrint fillreport = JasperFillManager.fillReport(a,null, conn);
+				JasperViewer jv = new JasperViewer(fillreport,false);
+				jv.setVisible(true);
+				jv.show();
+				
+			}
+			catch(Exception r)
+			{
+				JOptionPane.showMessageDialog(this, r);
+			}
 		}
+		
 	}
 	
 }
