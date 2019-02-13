@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 import Controlador.Controlador;
+import Mundo.Servidor;
 import interfazBodega.InterfazBodega;
 import interfazCliente.InterfazCliente;
 import interfazCuentaT.InterfazCuentaT;
@@ -44,9 +45,11 @@ public class InterfazApp extends JFrame{
 	    setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
 	    pnlPrin = new PanelPrin();
-	    
 	 // Organizar el panel principal. 
 	    add( pnlPrin);
+	    
+	    //Inicia el servidor
+	    Servidor servidor = new Servidor();
 	}
 
 	public static void main(String[] args) {

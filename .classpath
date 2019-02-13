@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/itext-pdfa-5.5.4.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.4.jar"/>
 	<classpathentry kind="lib" path="lib/jasperreports-6.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
