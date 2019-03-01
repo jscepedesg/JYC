@@ -10,8 +10,9 @@ public class Cliente {
 	private String tele;
 	private String correo;
 	private String dia;
+	private int num_ruta;
 	
-	public Cliente(int id_c,String nom_r,String nom_c ,String apel_c,String dire_c,String tele,String correo,String dia)
+	public Cliente(int id_c,String nom_r,String nom_c ,String apel_c,String dire_c,String tele,String correo,String dia,int num_ruta)
 	{
 		this.id_c=id_c;
 		this.nom_r=nom_r;
@@ -21,9 +22,15 @@ public class Cliente {
 		this.tele=tele;
 		this.correo=correo;
 		this.dia=dia;
+		this.num_ruta=num_ruta;
 		
 	}
 
+	
+	public int getNum_ruta() {
+		return num_ruta;
+	}
+	
 	public int getId_c() {
 		return id_c;
 	}

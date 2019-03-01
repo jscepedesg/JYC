@@ -138,7 +138,7 @@ public class PanelEliminar_c extends JPanel implements ActionListener{
 				//Recorrer el resulset
 				while(miresultset.next())
 				{
-					verifi.add(new Cliente(miresultset.getInt("Id_Cli"),miresultset.getString("nom_razon_social"),miresultset.getString("nom_Cli"),miresultset.getString("apell_CLie"),miresultset.getString("direccion"),miresultset.getString("telefono"),miresultset.getString("correo_e"),miresultset.getString("dia_atencion")));
+					verifi.add(new Cliente(miresultset.getInt("Id_Cli"),miresultset.getString("nom_razon_social"),miresultset.getString("nom_Cli"),miresultset.getString("apell_CLie"),miresultset.getString("direccion"),miresultset.getString("telefono"),miresultset.getString("correo_e"),miresultset.getString("dia_atencion"),miresultset.getInt("num_ruta")));
 					
 				}
 				

@@ -96,7 +96,7 @@ public class Controlador {
 	}
 	public void setCrearCliente(String id,String nom_r,String nom_c,String apel_c,String dire_c,String tel,String correo,String dia)
 	{
-		mundo.setCrearCliente(id, nom_r, nom_c, apel_c, dire_c,tel,correo,dia);
+		mundo.setCrearCliente(id, nom_r, nom_c, apel_c, dire_c,tel,correo,dia,1);
 	}
 	
 	public void setCrearVendedor(String cod, String nom, String apel, String ruta, String tele, String correo) 

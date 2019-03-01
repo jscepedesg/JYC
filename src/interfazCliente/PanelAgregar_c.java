@@ -66,7 +66,7 @@ public class PanelAgregar_c extends JPanel implements ActionListener{
 		add(info[2]);
 		
 		//Texto Codigo
-		info[3] = new JLabel("Id cliente: ");
+		info[3] = new JLabel("Num Ruta: ");
 		Font auxFont3=info[3].getFont();
 		info[3].setFont(new Font(auxFont.getFontName(), auxFont.getStyle(), 15));
 		info[3].setForeground(Color.BLUE.darker().darker().darker().darker());

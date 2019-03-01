@@ -37,10 +37,14 @@ public class Servidor implements Runnable{
     private DataOutputStream flujo;
     private PrintWriter pw;
     private Paquete_envio_BDD paquete_de_envio;
+    private Paquete_envio_peticion paquete_envio_peticion;
+    private ArrayList<Cliente_provicional> cliente_provicional;
+    private  Mundo mundo;
 	
 	
 	public Servidor()
 	{
+		mundo = new Mundo();
 		vendedor=null;
 		cliente=null;
 		producto=null;
@@ -100,6 +104,29 @@ public class Servidor implements Runnable{
 			            e.getMessage();
 			        }
 					
+				}
+				else
+				{
+					paquete_envio_peticion = gson.fromJson(mensaje_texto,Paquete_envio_peticion.class);
+					
+					if(paquete_envio_peticion.getPeticion()==2)
+					{
+						System.out.println("Primer Gson"+paquete_envio_peticion.getBDD());
+						
+						cliente_provicional = gson.fromJson(paquete_envio_peticion.getBDD(), new TypeToken<ArrayList<Cliente_provicional>>(){}.getType());
+						
+						for (Cliente_provicional integer : cliente_provicional) 
+						{
+							  System.out.println(integer.getNom_r()+" "+integer.getNom_c()+" "+integer.getApel_c()
+							  +" "+ integer.getDire_c()+" "+integer.getTele()+" "+integer.getCorreo()+" "+integer.getDia()
+							  +" "+integer.getNum_ruta_p());
+							  
+							  mundo.setCrearCliente(String.valueOf(integer.getNum_ruta_p()), integer.getNom_r(), integer.getNom_c(), integer.getApel_c(), 
+									  integer.getDire_c(),integer.getTele(),integer.getCorreo(),integer.getDia(),0);
+						}
+						
+						JOptionPane.showMessageDialog(null,"BDD actualizada correctamente","Atención",1);
+					}
 				}
 				
 				
@@ -195,13 +222,13 @@ public class Servidor implements Runnable{
 			//Ejecutar Sql
 			ResultSet miresultset1 = mistatement.executeQuery("select * from cliente");
 			cliente = new ArrayList<Cliente>();
-			//Recorrer el resulset
+			//Recorrer el resulset Se modifico
 			while(miresultset1.next())
 			{
 				cliente.add(new Cliente(miresultset1.getInt("Id_Cli"),miresultset1.getString("nom_razon_social"),
 						miresultset1.getString("nom_Cli"),miresultset1.getString("apell_CLie"),
 						miresultset1.getString("direccion"),miresultset1.getString("telefono"),
-						miresultset1.getString("correo_e"),miresultset1.getString("dia_atencion")));
+						miresultset1.getString("correo_e"),miresultset1.getString("dia_atencion"),miresultset1.getInt("num_ruta")));
 			}
 			
 			conexion.close();

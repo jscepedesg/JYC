@@ -63,7 +63,7 @@ public class PanelModificar_c extends JPanel implements ActionListener{
 		bot_bus.setBounds(180, 40, 75, 25);
 		
 		//Texto Codigo
-		info[2] = new JLabel("Id cliente: ");
+		info[2] = new JLabel("Num Ruta: ");
 		Font auxFont2=info[2].getFont();
 		info[2].setFont(new Font(auxFont.getFontName(), auxFont.getStyle(), 15));
 		info[2].setForeground(Color.BLUE.darker().darker().darker().darker());
@@ -203,7 +203,7 @@ public class PanelModificar_c extends JPanel implements ActionListener{
 				//Recorrer el resulset
 				while(miresultset.next())
 				{
-					verifi.add(new Cliente(miresultset.getInt("Id_Cli"),miresultset.getString("nom_razon_social"),miresultset.getString("nom_Cli"),miresultset.getString("apell_CLie"),miresultset.getString("direccion"),miresultset.getString("telefono"),miresultset.getString("correo_e"),miresultset.getString("dia_atencion")));
+					verifi.add(new Cliente(miresultset.getInt("Id_Cli"),miresultset.getString("nom_razon_social"),miresultset.getString("nom_Cli"),miresultset.getString("apell_CLie"),miresultset.getString("direccion"),miresultset.getString("telefono"),miresultset.getString("correo_e"),miresultset.getString("dia_atencion"),miresultset.getInt("num_ruta")));
 					
 				}
 				
@@ -217,7 +217,7 @@ public class PanelModificar_c extends JPanel implements ActionListener{
 						{
 							very=false;
 							//System.out.println(producto.getCod_p()+" "+producto.getNom_p()+" "+producto.getPre_p());
-							intro[1].setText(String.valueOf(cliente.getId_c()));
+							intro[1].setText(String.valueOf(cliente.getNum_ruta()));
 							intro[2].setText(cliente.getNom_r());
 							intro[3].setText(cliente.getNom_c());
 							intro[4].setText(cliente.getApel_c());
@@ -225,6 +225,7 @@ public class PanelModificar_c extends JPanel implements ActionListener{
 							intro[6].setText(cliente.getTele());
 							intro[7].setText(cliente.getCorreo());
 							combo.setSelectedItem(cliente.getDia());
+							intro[0].setEnabled(false);
 						}
 						if(con>=verifi.size()&&very==true)
 						{
@@ -266,11 +267,15 @@ public class PanelModificar_c extends JPanel implements ActionListener{
 				if(!intro[0].getText().equals(""))
 				{	
 					String aux=intro[0].getText();
-					String instruccion_sql = "delete from cliente where Id_Cli="+aux;
-					mistatement.executeUpdate(instruccion_sql);
-					String instruccion_sql1 = "insert into cliente values ("+id+",'"+nom_r+"','"+nom_c+"','"+apel_c+"',"+"'"+dire_c+"','"+tel+"','"+correo+"','"+dia+"')";
+					//String instruccion_sql = "delete from cliente where Id_Cli="+aux;
+					//mistatement.executeUpdate(instruccion_sql);
+					String instruccion_sql1 ="UPDATE cliente "
+							+ "SET nom_razon_social='"+nom_r+"', nom_Cli='"+nom_c+"',apell_CLie='"+apel_c+
+							"',direccion='"+dire_c+"',telefono='"+tel+"',correo_e='"+correo+"',dia_atencion='"
+									+ ""+dia+"',num_ruta="+id+" WHERE Id_Cli="+aux;
 					mistatement.executeUpdate(instruccion_sql1);
 					JOptionPane.showMessageDialog(this,"El producto se modifico correctamente","Atención",1);
+					intro[0].setEnabled(true);
 					intro[1].setText("");
 					intro[2].setText("");
 					intro[3].setText("");

@@ -62,7 +62,7 @@ public class Mundo {
 			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
 		}
 	}
-	public void setCrearCliente(String id,String nom_r,String nom_c,String apel_c,String dire_c,String tel,String correo,String dia)
+	public void setCrearCliente(String id,String nom_r,String nom_c,String apel_c,String dire_c,String tel,String correo,String dia, int mensaje)
 	{
 		very=true;
 		try
@@ -94,10 +94,15 @@ public class Mundo {
 			//Insertar valores
 			if(very==true)
 			{
-				String instruccion_sql = "insert into cliente values ("+id+",'"+nom_r+"','"+nom_c+"','"+apel_c+"',"+"'"+dire_c+"','"+tel+"','"+correo+"','"+dia+"')";
+				String instruccion_sql = "insert into cliente (nom_razon_social,nom_Cli,apell_CLie,direccion,telefono,correo_e,dia_atencion,num_ruta)"
+						+ " values ('"+nom_r+"','"+nom_c+"','"+apel_c+"',"+"'"+dire_c+"','"+tel+"','"+correo+"','"+dia+"',"+id+")";
 				mistatement.executeUpdate(instruccion_sql);
 				System.out.println(instruccion_sql);
-				JOptionPane.showMessageDialog(null,"El cliente se creo correctamente","Atención",1);
+				if(mensaje==1)
+				{
+					JOptionPane.showMessageDialog(null,"El cliente se creo correctamente","Atención",1);
+				}
+				
 			}
 			
 			conexion.close();
