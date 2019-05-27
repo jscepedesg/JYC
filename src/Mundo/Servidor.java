@@ -39,6 +39,7 @@ public class Servidor implements Runnable{
     private Paquete_envio_BDD paquete_de_envio;
     private Paquete_envio_peticion paquete_envio_peticion;
     private ArrayList<Cliente_provicional> cliente_provicional;
+    private ArrayList<Factura> facturas;
     private  Mundo mundo;
 	
 	
@@ -123,6 +124,23 @@ public class Servidor implements Runnable{
 							  
 							  mundo.setCrearCliente(String.valueOf(integer.getNum_ruta_p()), integer.getNom_r(), integer.getNom_c(), integer.getApel_c(), 
 									  integer.getDire_c(),integer.getTele(),integer.getCorreo(),integer.getDia(),0);
+						}
+						
+						JOptionPane.showMessageDialog(null,"BDD actualizada correctamente","Atención",1);
+					}
+					else if(paquete_envio_peticion.getPeticion()==3)
+					{
+						System.out.println("Primer Gson"+paquete_envio_peticion.getBDD());
+						
+						facturas = gson.fromJson(paquete_envio_peticion.getBDD(), new TypeToken<ArrayList<Factura>>(){}.getType());
+						
+						for (Factura integer : facturas) 
+						{
+							  System.out.println(integer.getId_pro3()+" "+integer.getId_factura()+" "+integer.getId_ven1()
+							  +" "+ integer.getId_clie1()+" "+integer.getCantidad()+" "+integer.getFecha_de_facturacion());
+							  
+							  mundo.setCrearFactura(integer.getId_pro3(),integer.getId_factura(),integer.getId_ven1()
+							  ,integer.getId_clie1(),integer.getCantidad(),integer.getFecha_de_facturacion());
 						}
 						
 						JOptionPane.showMessageDialog(null,"BDD actualizada correctamente","Atención",1);

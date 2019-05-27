@@ -285,4 +285,40 @@ public class Mundo {
 		return verifi;
 		
 	}
+	
+	public void setCrearFactura(int id_producto, int id_factura, int id_vendedor, int id_cliente
+			,int cantidad, String fecha)
+	{
+		
+		
+		
+		very=true;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+
+//--------------------------------------------------------------------------------------------
+			//Insertar valores
+			if(very==true)
+			{
+				String instruccion_sql = "insert into factura (Id_Pro3, id_factura, id_ven1, id_clie1, cantidad, fecha_de_factuarcion)"
+						+ " values ("+id_producto+","+id_factura+","+id_vendedor+","+""+id_cliente+","+cantidad+",'"+fecha+"'"+")";
+				mistatement.executeUpdate(instruccion_sql);
+				System.out.println(instruccion_sql);
+				
+			}
+			
+			conexion.close();
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println(g);
+		}
+		
+		
+	}
 }
