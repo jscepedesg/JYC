@@ -21,6 +21,7 @@ import Controlador.Controlador;
 import Mundo.Servidor;
 import interfazBodega.InterfazBodega;
 import interfazCliente.InterfazCliente;
+import interfazConsolidado.InterfazConsolidado;
 import interfazCuentaT.InterfazCuentaT;
 import interfazProducto.InterfazProducto;
 import interfazVendedor.InterfazVendedor;
@@ -250,6 +251,16 @@ public class InterfazApp extends JFrame{
 		else if(btnpuch==con)
 		{
 			System.out.println("Abrio consolidado");
+			if(auxframe==0)
+			{
+				auxframe++;
+				InterfazConsolidado agregar = new InterfazConsolidado(new Controlador());
+				agregar.setVisible(true);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(PanelPrin.this,"Ya hay una ventana abierta","Atención",0);
+			}
 		}
 		else if(btnpuch==tablat)
 		{

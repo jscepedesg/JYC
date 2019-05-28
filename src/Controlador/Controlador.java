@@ -15,6 +15,7 @@ import interfazCliente.PanelAgregar_c;
 import interfazCliente.PanelEliminar_c;
 import interfazCliente.PanelModificar_c;
 import interfazCliente.PanelTabla_c;
+import interfazConsolidado.PanelPrincipalConsolidado;
 import interfazCuentaT.PanelTablaT;
 import interfazProducto.PanelAgregar_p;
 import interfazProducto.PanelEliminar_p;
@@ -49,8 +50,11 @@ public class Controlador {
 	private PanelModificar_b pnlModificar_b;
 	private PanelEliminar_b pnlEliminar_b;
 	private PanelOpcion_b pnlOpcion_b;
+	private PanelPrincipalConsolidado pnlPanelPrincipalConsolidado;
 	private ArrayList<Producto> verifi = new ArrayList<Producto>();
 	private ArrayList<Bodega> verifi1 = new ArrayList<Bodega>();
+	private ArrayList<String> verifi2 = new ArrayList<String>();
+	private ArrayList<String> verifi3 = new ArrayList<String>();
 	public Controlador()
 	{
 		mundo = new Mundo();
@@ -89,6 +93,10 @@ public class Controlador {
 		this.pnlEliminar_b=pnlEliminar_b;
 		this.pnlTabla_b=pnlTabla_b;
 		this.pnlOpcion_b=pnlOpcion_b;
+	}
+	public void conectar(PanelPrincipalConsolidado pnlPrincipalConsolidado) 
+	{
+		this.pnlPanelPrincipalConsolidado=pnlPrincipalConsolidado;	
 	}
 	public void setCrearProducto(String cod,String nom,String valor,String linea,String casa)
 	{
@@ -147,4 +155,28 @@ public class Controlador {
 		return verifi1;
 		
 	}
+	public void setLlenarFechasConsolidado()
+	{
+		verifi2=mundo.getLlenarCombox2();
+	}
+	
+	public ArrayList<String> getLlenarCombox2()
+	{
+		return verifi2;
+		
+	}
+	public void setLlenarEmpresas() 
+	{
+		verifi3=mundo.getLlenarCombox3();
+	}
+	public ArrayList<String> getLlenarCombox3()
+	{
+		return verifi3;
+		
+	}
+	public void setCrearConsolidado(String fecha) 
+	{
+		mundo.setCrearConsolidado(fecha);
+	}
+	
 }

@@ -321,4 +321,177 @@ public class Mundo {
 		
 		
 	}
+	public ArrayList<String> getLlenarCombox2() 
+	{
+		ArrayList<String> verifi = null;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+			//Ejecutar Sql
+			ResultSet miresultset = mistatement.executeQuery("SELECT fecha_de_factuarcion " + 
+					"FROM factura " + 
+					"GROUP BY fecha_de_factuarcion " + 
+					"ORDER BY fecha_de_factuarcion DESC");
+			verifi = new ArrayList<String>();
+			//Recorrer el resulset
+			while(miresultset.next())
+			{
+				verifi.add(miresultset.getString("fecha_de_factuarcion"));
+				
+			}
+			
+			
+			conexion.close();
+			
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+		}
+		
+		return verifi;
+	}
+	public ArrayList<String> getLlenarCombox3() 
+	{
+		ArrayList<String> verifi = null;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+			//Ejecutar Sql
+			ResultSet miresultset = mistatement.executeQuery("SELECT Casa_de_Export " + 
+					"FROM producto " + 
+					"GROUP BY Casa_de_Export " + 
+					"ORDER BY Casa_de_Export DESC");
+			verifi = new ArrayList<String>();
+			//Recorrer el resulset
+			while(miresultset.next())
+			{
+				verifi.add(miresultset.getString("Casa_de_Export"));
+				
+			}
+			
+			
+			conexion.close();
+			
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+		}
+		
+		return verifi;
+	}
+	public void setCrearConsolidado(String fecha) 
+	{
+		very=true;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+//-------------------------------------------------------------------------------------------
+			//Ejecutar Sql
+			ResultSet miresultset = mistatement.executeQuery("select * from registro");
+			ArrayList<String> verifi = new ArrayList<String>();
+			//Recorrer el resulset
+			while(miresultset.next())
+			{
+				verifi.add(miresultset.getString("fecha"));
+				System.out.println(verifi.toString());
+				
+			}
+			for (String integer : verifi) 
+			{
+				String prue=integer;
+				if(prue.equals(fecha))
+				{
+					JOptionPane.showMessageDialog(null,"Ya ahi un consolidado con la misma fecha","Alerta",0);
+					 very=false;
+				}
+			}
+			System.out.println(very);
+//--------------------------------------------------------------------------------------------
+			//Insertar valores
+			if(very==true)
+			{
+				int num_regi=0;
+				{
+					String instruccion_sql1 = "SELECT COUNT(*) AS cuenta FROM registro";
+					ResultSet miresultset1 = mistatement.executeQuery(instruccion_sql1);
+					//Recorrer el resulset
+					while(miresultset1.next())
+					{
+						num_regi=miresultset1.getInt("cuenta");				
+					}
+					System.out.println(num_regi);
+				}
+				
+				
+				String instruccion_sql = "insert into registro values ("+(num_regi+1)+",'"+fecha+"')";
+				mistatement.executeUpdate(instruccion_sql);
+				
+				{
+					String instruccion_sql3 = "SELECT Id_Pro3, SUM(cantidad) AS Cantidad_total " + 
+							"FROM factura " + 
+							"WHERE fecha_de_factuarcion = '"+fecha+"'" + 
+							"GROUP BY Id_Pro3 ORDER BY Cantidad_total DESC";
+					ResultSet miresultset3 = mistatement.executeQuery(instruccion_sql3);
+					//Recorrer el resulset
+					while(miresultset3.next())
+					{
+						String instruccion_sql2 = "insert into consolidado values ("+miresultset3.getInt("Id_Pro3")+","+miresultset3.getInt("Cantidad_total")+", '"+fecha+"', "+(num_regi+1)+")";
+						System.out.println(instruccion_sql2);
+						//mistatement.executeUpdate(instruccion_sql2);
+						setTerminarConsolidado(instruccion_sql2);
+					}
+					
+				}
+				
+				
+				JOptionPane.showMessageDialog(null,"El Consolidado se creo correctamente","Atención",1);
+			}
+			
+			conexion.close();
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println(g.getMessage());
+		}
+	}
+	
+	public void setTerminarConsolidado(String consulta)
+	{
+		very=true;
+		try
+		{
+			//1. Crear conexion 
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/jyc","root","");
+			//2.Crear objecto Statement
+			Statement mistatement = conexion.createStatement();
+
+//--------------------------------------------------------------------------------------------
+			//Insertar valores
+			if(very==true)
+			{
+				mistatement.executeUpdate(consulta);
+				System.out.println(consulta);
+				
+			}
+			
+			conexion.close();
+		}
+		catch(Exception g)
+		{
+			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
+			System.out.println(g);
+		}
+	}
 }
