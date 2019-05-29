@@ -176,6 +176,19 @@ public class PanelPrincipalConsolidado extends JPanel implements ActionListener
 		else
 		{
 			System.out.println("Empresa");
+			if(!((String)productos.getSelectedItem()).equals("--Vacio--")&&!((String)casadeimportacion.getSelectedItem()).equals("--Vacio--"))
+			{
+				String fecha="", empresa="";
+				fecha=(String) productos.getSelectedItem();
+				empresa=(String) casadeimportacion.getSelectedItem();
+				ctrl.setCrearConsolidado(fecha,empresa);
+				productos.setSelectedItem("--Vacio--");
+				casadeimportacion.setSelectedItem("--Vacio--");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,"Elija una fecha y una empresa","Alerta",0);
+			}
 		}
 		
 	}

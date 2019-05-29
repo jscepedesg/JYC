@@ -178,5 +178,9 @@ public class Controlador {
 	{
 		mundo.setCrearConsolidado(fecha);
 	}
+	public void setCrearConsolidado(String fecha, String empresa) 
+	{
+		mundo.setCrearConsolidado(fecha, empresa);
+	}
 	
 }

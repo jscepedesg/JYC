@@ -5,10 +5,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import interfazBodega.PanelAgregar_b;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class Mundo {
 
@@ -414,6 +422,7 @@ public class Mundo {
 				{
 					JOptionPane.showMessageDialog(null,"Ya ahi un consolidado con la misma fecha","Alerta",0);
 					 very=false;
+					 setGenerarReporteConsolidadoGeneral(fecha);
 				}
 			}
 			System.out.println(very);
@@ -456,6 +465,7 @@ public class Mundo {
 				
 				
 				JOptionPane.showMessageDialog(null,"El Consolidado se creo correctamente","Atención",1);
+				setGenerarReporteConsolidadoGeneral(fecha);
 			}
 			
 			conexion.close();
@@ -492,6 +502,59 @@ public class Mundo {
 		{
 			JOptionPane.showMessageDialog(null,"Hubo un erro con la base de datos","Alerta",0);
 			System.out.println(g);
+		}
+	}
+	
+	public void setGenerarReporteConsolidadoGeneral(String fecha)
+	{
+		//Date date = new Date(fecha);
+		System.out.println(fecha);
+		try
+		{
+			Conexion con = new Conexion();
+			Connection conn= con.getConexion();
+			JasperReport a = null;
+			String path = "src\\reportes\\consolidadoGen.jasper";
+			
+			a=(JasperReport) JRLoader.loadObjectFromFile(path);
+			Map parametro = new HashMap();
+			parametro.put("fecha", fecha);
+			//parametro.put("fecha", date);
+			JasperPrint fillreport = JasperFillManager.fillReport(a,parametro, conn);
+			JasperViewer jv = new JasperViewer(fillreport,false);
+			jv.setVisible(true);
+			jv.show();
+			
+		}
+		catch(Exception r)
+		{
+			JOptionPane.showMessageDialog(null, r);
+		}
+	}
+	public void setCrearConsolidado(String fecha, String empresa) 
+	{
+		System.out.println(fecha);
+		try
+		{
+			Conexion con = new Conexion();
+			Connection conn= con.getConexion();
+			JasperReport a = null;
+			String path = "src\\reportes\\consolidadoEsp.jasper";
+			
+			a=(JasperReport) JRLoader.loadObjectFromFile(path);
+			Map parametro = new HashMap();
+			parametro.put("fecha", fecha);
+			parametro.put("empresa", empresa);
+			//parametro.put("fecha", date);
+			JasperPrint fillreport = JasperFillManager.fillReport(a,parametro, conn);
+			JasperViewer jv = new JasperViewer(fillreport,false);
+			jv.setVisible(true);
+			jv.show();
+			
+		}
+		catch(Exception r)
+		{
+			JOptionPane.showMessageDialog(null, r);
 		}
 	}
 }
