@@ -1,4 +1,3 @@
-/Controlador/
 /InterfazApp/
 /Mundo/
 /Util/
@@ -9,3 +8,5 @@
 /interfazProducto/
 /interfazVendedor/
 /reportes/
+/interfazFacturacion/
+/Controlador/

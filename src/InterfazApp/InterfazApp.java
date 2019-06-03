@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,13 +21,20 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
 import Controlador.Controlador;
+import Mundo.Conexion;
 import Mundo.Servidor;
 import interfazBodega.InterfazBodega;
 import interfazCliente.InterfazCliente;
 import interfazConsolidado.InterfazConsolidado;
 import interfazCuentaT.InterfazCuentaT;
+import interfazFacturacion.InterfazFactura;
 import interfazProducto.InterfazProducto;
 import interfazVendedor.InterfazVendedor;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 public class InterfazApp extends JFrame{
@@ -278,6 +288,16 @@ public class InterfazApp extends JFrame{
 		else if(btnpuch==facturacion)
 		{
 			System.out.println("Abrio Facturación");
+			if(auxframe==0)
+			{
+				auxframe++;
+				InterfazFactura agregar = new InterfazFactura(new Controlador());
+				agregar.setVisible(true);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(PanelPrin.this,"Ya hay una ventana abierta","Atención",0);
+			}
 		}
 		else if(btnpuch==bodega)
 		{

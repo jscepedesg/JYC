@@ -17,6 +17,7 @@ import interfazCliente.PanelModificar_c;
 import interfazCliente.PanelTabla_c;
 import interfazConsolidado.PanelPrincipalConsolidado;
 import interfazCuentaT.PanelTablaT;
+import interfazFacturacion.PanelPrincipalFactura;
 import interfazProducto.PanelAgregar_p;
 import interfazProducto.PanelEliminar_p;
 import interfazProducto.PanelModificar_p;
@@ -51,6 +52,7 @@ public class Controlador {
 	private PanelEliminar_b pnlEliminar_b;
 	private PanelOpcion_b pnlOpcion_b;
 	private PanelPrincipalConsolidado pnlPanelPrincipalConsolidado;
+	private PanelPrincipalFactura pnlPrincipalFactura;
 	private ArrayList<Producto> verifi = new ArrayList<Producto>();
 	private ArrayList<Bodega> verifi1 = new ArrayList<Bodega>();
 	private ArrayList<String> verifi2 = new ArrayList<String>();
@@ -97,6 +99,10 @@ public class Controlador {
 	public void conectar(PanelPrincipalConsolidado pnlPrincipalConsolidado) 
 	{
 		this.pnlPanelPrincipalConsolidado=pnlPrincipalConsolidado;	
+	}
+	public void conectar(PanelPrincipalFactura pnlPrincipalFactura) 
+	{
+		this.pnlPrincipalFactura=pnlPrincipalFactura;
 	}
 	public void setCrearProducto(String cod,String nom,String valor,String linea,String casa)
 	{
@@ -182,5 +188,10 @@ public class Controlador {
 	{
 		mundo.setCrearConsolidado(fecha, empresa);
 	}
+	public void setCrearFacturacion(String fecha) 
+	{
+		mundo.setCrearFacturacion(fecha);
+	}
+	
 	
 }
